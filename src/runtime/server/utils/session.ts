@@ -3,7 +3,8 @@ import { useSession, createError } from 'h3'
 import { defu } from 'defu'
 import { createHooks } from 'hookable'
 import { useRuntimeConfig } from '#imports'
-import type { ActiveUserSession, PrivateSessionData, PublicSessionData, UserSession } from '#auth-utils'
+import type { PrivateSessionData, PublicSessionData } from '#auth-utils'
+import type { ActiveUserSession, UserSession } from '../../types/session'
 
 export interface SessionHooks {
   /**
@@ -63,9 +64,9 @@ export async function clearUserSession (event: H3Event) {
 }
 
 export async function requireUserSession(event: H3Event): Promise<ActiveUserSession> {
-  const userSession = await getUserSession(event)
+  const userSession = await getUserSession(event) || { public: {}}
 
-  if (!userSession.public?.user) {
+  if (!userSession.public.user) {
     throw createError({
       statusCode: 401,
       message: 'Unauthorized'

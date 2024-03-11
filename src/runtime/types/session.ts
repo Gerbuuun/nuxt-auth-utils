@@ -11,11 +11,13 @@ export interface PrivateSessionData {
 }
 
 export interface UserSession extends PrivateSessionData {
-  public?: PublicSessionData
+  public: PublicSessionData
 }
 
-export interface ActiveUserSession extends PrivateSessionData {
-  public: PublicSessionData
+export interface ActiveUserSession extends UserSession {
+  public: { 
+    user: User
+  }
 }
 
 export interface UserSessionComposable {
