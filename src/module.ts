@@ -36,6 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Server
     addServerPlugin(resolver.resolve('./runtime/server/plugins/oauth'))
     addServerImportsDir(resolver.resolve('./runtime/server/lib/oauth'))
+    addServerImportsDir(resolver.resolve('./runtime/server/lib/passkey'))
     addServerImportsDir(resolver.resolve('./runtime/server/utils'))
     addServerHandler({
       handler: resolver.resolve('./runtime/server/api/session.delete'),
