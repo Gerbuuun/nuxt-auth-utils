@@ -1,5 +1,6 @@
 declare module '#auth-utils' {
   interface User {
+    passkey?: string
     password?: string
     spotify?: string
     github?: string
@@ -18,6 +19,8 @@ declare module '#auth-utils' {
     x?: string
     xsuaa?: string
     yandex?: string
+    uniqueName: string
+    displayName: string
   }
 
   interface UserSession {

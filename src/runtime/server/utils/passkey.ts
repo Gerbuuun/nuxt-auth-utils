@@ -9,7 +9,11 @@ import type {
   SerializedPublicKeyCredentialRequestOptions,
 } from '#auth-utils'
 
-function generateChallenge() {
+/**
+ * Generate a random challenge
+ * @returns base64 encoded challenge
+ */
+export function generateChallenge() {
   return encodeBase64(getRandomValues(new Uint8Array(32)))
 }
 
@@ -31,11 +35,11 @@ export function generateRegistrationOptions(
     attestation: 'none',
     challenge: generateChallenge(),
     rp: {
-      id: getRequestURL(event).host,
+      id: getRequestURL(event).hostname,
       name: rpName,
     },
     user: {
-      id: generateChallenge(), // TODO: use a real id
+      id: generateChallenge(), // TODO: use a real id?
       name: uniqueName,
       displayName,
     },
@@ -59,7 +63,7 @@ export function generateRegistrationOptions(
 export function generateLoginOptions(event: H3Event): SerializedPublicKeyCredentialRequestOptions {
   return {
     challenge: generateChallenge(),
-    rpId: getRequestURL(event).host,
+    rpId: getRequestURL(event).hostname,
     timeout: 60000,
     userVerification: 'required',
   }

@@ -10,7 +10,8 @@ interface PasskeyEventHandler<T> {
    */
   storeChallenge: (
     event: H3Event,
-    challenge: string
+    challenge: string,
+    attemptId: string
   ) => Promise<void> | void
 
   /**
@@ -29,12 +30,15 @@ interface PasskeyEventHandler<T> {
 }
 
 export interface PasskeyLoginEventHandler extends PasskeyEventHandler<User> {
-  getCredential: (credentialId: Uint8Array) => Promise<{ user: User, encodedPublicKey: Uint8Array }> | { user: User, encodedPublicKey: Uint8Array }
+  getCredential: (event: H3Event, credentialId: Uint8Array) =>
+    Promise<{ user: User, encodedPublicKey: Uint8Array }> | { user: User, encodedPublicKey: Uint8Array }
 }
 
 export type PasskeyRegisterEventHandler = PasskeyEventHandler<{
   credentialId: Uint8Array
   encodedPublicKey: Uint8Array
+  uniqueName: string
+  displayName?: string
 }>
 
 export interface PasskeyChallengeEventHandler {
@@ -55,6 +59,8 @@ export interface PasskeyChallengeEventHandler {
   ) => Promise<string> | string
 }
 
+// In future browser versions, JSON serialized Credentials will be available
+// For now, we need to serialize (and type) them manually
 type SerializedOptions<T> = {
   [K in keyof T]: T[K] extends BufferSource
     ? string
@@ -64,7 +70,6 @@ type SerializedOptions<T> = {
         ? SerializedOptions<T[K]>
         : T[K]
 }
-
 export type SerializedPublicKeyCredentialCreationOptions = SerializedOptions<PublicKeyCredentialCreationOptions>
 export type SerializedPublicKeyCredentialRequestOptions = SerializedOptions<PublicKeyCredentialRequestOptions>
 

@@ -31,7 +31,7 @@ export function usePasskey(): PasskeyComposable {
     const registerConfig = await $fetch<SerializedPublicKeyCredentialCreationOptions>(toValue(endpoint), {
       method: 'POST',
       body: {
-        name: toValue(uniqueName),
+        uniqueName: toValue(uniqueName),
         displayName: toValue(displayName),
       },
     })

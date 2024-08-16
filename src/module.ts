@@ -191,5 +191,10 @@ export default defineNuxtModule<ModuleOptions>({
       clientSecret: '',
       redirectURL: '',
     })
+
+    // Passkey
+    runtimeConfig.passkey = defu(runtimeConfig.passkey, {
+      rpName: 'Nuxt Auth Utils',
+    })
   },
 })
